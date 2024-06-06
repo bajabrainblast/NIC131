@@ -9,7 +9,7 @@ import nicStructures as nst
 
 def read_station_head(sta:nst.Station, line:str):
     sta.line_head = line
-
+    sta.name_full = line[0:10]
     
 def read_station_mean(sta:nst.Station, line:str):
     sta.line_mean = line
@@ -23,7 +23,7 @@ def read_station_year(sta:nst.Station, line:str):
     # get name and year
     yr.name = line[0:10]
     yr.year = int(line[10:14])
-    spl = line[15].split()
+    spl = line[15:].split()
     # if breaks month pattern, dont bother
     if len(spl) != 13:
         yr.need_fix = True
@@ -37,7 +37,7 @@ def read_station_year(sta:nst.Station, line:str):
             yr.need_fix = True
             sta.need_year_fix = True
     # get total
-    yr.total = int(spl[13])
+    yr.total = int(spl[12])
     if yr.total == 99999:
         yr.need_fix = True
         sta.need_year_fix = True
@@ -70,8 +70,10 @@ def NIC_read(inp_file:str = "data/NIC131.dat", out_file:str = "data/stations.pk"
             read_station_stdv(cur_station, line)
             line = reader.readline()
         # handle a year
-        read_station_year(cur_station, line)
-        line = reader.readline()
+        if line != "":
+            read_station_year(cur_station, line)
+            line = reader.readline()
+        # end read in all years
 
     # write results
     with open(out_file, "wb") as out:
@@ -84,12 +86,11 @@ if (__name__ == "__main__"):
     output_file = NIC_read()
     print("Output to", output_file)
 
-    '''
     print("Reading data from ", output_file, "...", sep="")
     stations = []
     with open(output_file, "rb") as input_file:
         stations = pk.load(input_file)
-    print(stations)
-    '''
+    for st in stations:
+        print(st)
 
     print("Goodbye!")
