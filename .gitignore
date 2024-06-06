@@ -1,5 +1,7 @@
 # data files
-data/*
+data/
+
+# github generated python gitignore from this point on
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
