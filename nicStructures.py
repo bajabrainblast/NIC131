@@ -7,7 +7,7 @@ class Region:
 class Station:
     def __init__(self):
         self.name_full = ""         # 10ch combination of station and country
-        self.name_station = ""      # 5ch station
+        self.name_station = ""      # 5ch station 
         self.name_country = ""      # 5ch country
         self.region = 0             # region number
         self.latitude = 0
@@ -15,7 +15,9 @@ class Station:
         self.altitude = 0
         self.need_fix = False
         self.mean = [0] * 12        # monthly mean
+        self.mean_total = 0
         self.stdv = [0] * 12        # monthly standard deviation
+        self.stdv_total = 0
         self.years = {}             # list of years, indexed by year
         self.need_year_fix = False
         self.average = 0            # station average
